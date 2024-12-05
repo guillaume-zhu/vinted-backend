@@ -1,0 +1,71 @@
+{
+  "kind": "collectionType",
+  "collectionName": "offers",
+  "info": {
+    "singularName": "offer",
+    "pluralName": "offers",
+    "displayName": "Offer",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "pluginOptions": {},
+      "type": "string",
+      "required": true
+    },
+    "price": {
+      "pluginOptions": {},
+      "type": "string",
+      "required": true
+    },
+    "brand": {
+      "pluginOptions": {},
+      "type": "string",
+      "required": true
+    },
+    "condition": {
+      "pluginOptions": {},
+      "type": "enumeration",
+      "enum": [
+        "Neuf avec étiquette",
+        "Neuf sans étiquette",
+        "Très bon état",
+        "Bon état",
+        "Satisfaisant"
+      ],
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "images": {
+      "type": "media",
+      "multiple": true,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "colors": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::color.color"
+    },
+    "materials": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::material.material"
+    },
+    "owner": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "offers"
+    }
+  }
+}
