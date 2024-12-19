@@ -17,16 +17,6 @@
       "type": "string",
       "required": true
     },
-    "price": {
-      "pluginOptions": {},
-      "type": "string",
-      "required": true
-    },
-    "brand": {
-      "pluginOptions": {},
-      "type": "string",
-      "required": true
-    },
     "condition": {
       "pluginOptions": {},
       "type": "enumeration",
@@ -46,7 +36,7 @@
     "images": {
       "type": "media",
       "multiple": true,
-      "required": true,
+      "required": false,
       "allowedTypes": [
         "images"
       ]
@@ -66,6 +56,28 @@
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
       "inversedBy": "offers"
+    },
+    "brand": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::brand.brand",
+      "inversedBy": "offers"
+    },
+    "customBrand": {
+      "type": "string"
+    },
+    "category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::category.category",
+      "inversedBy": "offers"
+    },
+    "price": {
+      "type": "decimal",
+      "required": true,
+      "min": 0,
+      "default": 0,
+      "max": 10000000
     }
   }
 }
