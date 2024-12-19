@@ -793,6 +793,47 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
+export interface ApiBrandBrand extends Schema.CollectionType {
+  collectionName: 'brands';
+  info: {
+    singularName: 'brand';
+    pluralName: 'brands';
+    displayName: 'Brand';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required & Attribute.Unique;
+    status: Attribute.Enumeration<['approved', 'pending', 'rejected']> &
+      Attribute.Required;
+    createdByUser: Attribute.Boolean & Attribute.DefaultTo<false>;
+    offers: Attribute.Relation<
+      'api::brand.brand',
+      'oneToMany',
+      'api::offer.offer'
+    >;
+    displayName: Attribute.String & Attribute.Unique;
+    isPopular: Attribute.Boolean & Attribute.DefaultTo<false>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::brand.brand',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::brand.brand',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiCategoryCategory extends Schema.CollectionType {
   collectionName: 'categories';
   info: {
@@ -820,6 +861,11 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
       'api::category.category',
       'oneToMany',
       'api::category.category'
+    >;
+    offers: Attribute.Relation<
+      'api::category.category',
+      'oneToMany',
+      'api::offer.offer'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -916,8 +962,6 @@ export interface ApiOfferOffer extends Schema.CollectionType {
   };
   attributes: {
     name: Attribute.String & Attribute.Required;
-    price: Attribute.String & Attribute.Required;
-    brand: Attribute.String & Attribute.Required;
     condition: Attribute.Enumeration<
       [
         'Neuf avec \u00E9tiquette',
@@ -929,7 +973,7 @@ export interface ApiOfferOffer extends Schema.CollectionType {
     > &
       Attribute.Required;
     description: Attribute.Text & Attribute.Required;
-    images: Attribute.Media<'images', true> & Attribute.Required;
+    images: Attribute.Media<'images', true>;
     colors: Attribute.Relation<
       'api::offer.offer',
       'oneToMany',
@@ -945,6 +989,27 @@ export interface ApiOfferOffer extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.user'
     >;
+    brand: Attribute.Relation<
+      'api::offer.offer',
+      'manyToOne',
+      'api::brand.brand'
+    >;
+    customBrand: Attribute.String;
+    category: Attribute.Relation<
+      'api::offer.offer',
+      'manyToOne',
+      'api::category.category'
+    >;
+    price: Attribute.Decimal &
+      Attribute.Required &
+      Attribute.SetMinMax<
+        {
+          min: 0;
+          max: 10000000;
+        },
+        number
+      > &
+      Attribute.DefaultTo<0>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -981,6 +1046,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::brand.brand': ApiBrandBrand;
       'api::category.category': ApiCategoryCategory;
       'api::color.color': ApiColorColor;
       'api::material.material': ApiMaterialMaterial;
