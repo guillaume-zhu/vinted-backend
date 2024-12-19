@@ -742,7 +742,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
   options: {
     draftAndPublish: false;
-    timestamps: true;
   };
   attributes: {
     username: Attribute.String &
@@ -776,6 +775,7 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'oneToMany',
       'api::offer.offer'
     >;
+    avatar: Attribute.Media<'images'> & Attribute.Required;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -805,7 +805,7 @@ export interface ApiBrandBrand extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    name: Attribute.String & Attribute.Required & Attribute.Unique;
+    name: Attribute.String & Attribute.Required;
     status: Attribute.Enumeration<['approved', 'pending', 'rejected']> &
       Attribute.Required;
     createdByUser: Attribute.Boolean & Attribute.DefaultTo<false>;
@@ -814,7 +814,7 @@ export interface ApiBrandBrand extends Schema.CollectionType {
       'oneToMany',
       'api::offer.offer'
     >;
-    displayName: Attribute.String & Attribute.Unique;
+    displayName: Attribute.String;
     isPopular: Attribute.Boolean & Attribute.DefaultTo<false>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;

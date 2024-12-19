@@ -43,6 +43,10 @@ module.exports = createCoreController("api::offer.offer", ({ strapi }) => ({
       const offerData = ctx.request.body.data;
       console.log("offerData ------>", offerData);
 
+      //// récupérer les informations de l'utilisateur qui créée l'offre
+      const userInfo = ctx.state.user;
+      console.log("userInfo ------>", userInfo);
+
       //////// cas 1 : si une custom brand est choisie
       if (offerData.customBrand) {
         ////// créer cette custom brand dans la collections brands avec les champs : {

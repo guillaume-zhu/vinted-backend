@@ -15,7 +15,7 @@
     "name": {
       "type": "string",
       "required": true,
-      "unique": true
+      "unique": false
     },
     "status": {
       "type": "enumeration",
@@ -38,7 +38,7 @@
     },
     "displayName": {
       "type": "string",
-      "unique": true
+      "unique": false
     },
     "isPopular": {
       "type": "boolean",
