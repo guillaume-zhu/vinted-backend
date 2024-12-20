@@ -41,11 +41,11 @@ module.exports = createCoreController("api::offer.offer", ({ strapi }) => ({
     try {
       //// récupérer les data du form et les stocker dans une variable body
       const offerData = ctx.request.body.data;
-      console.log("offerData ------>", offerData);
+      // console.log("offerData ------>", offerData);
 
       //// récupérer les informations de l'utilisateur qui créée l'offre
       const userInfo = ctx.state.user;
-      console.log("userInfo ------>", userInfo);
+      // console.log("userInfo ------>", userInfo);
 
       //////// cas 1 : si une custom brand est choisie
       if (offerData.customBrand) {
@@ -63,7 +63,7 @@ module.exports = createCoreController("api::offer.offer", ({ strapi }) => ({
             isPopular: false,
           },
         });
-        console.log("Custom brand created ---->", newBrand);
+        // console.log("Custom brand created ---->", newBrand);
 
         ////// associer le dataOffer.brand = la nouvelle collection
         //// trouver l'ID de la customBrand créée
@@ -71,7 +71,7 @@ module.exports = createCoreController("api::offer.offer", ({ strapi }) => ({
         offerData.brand = newBrand.id;
         //////// supprimer le contenu de custom brand
         delete offerData.customBrand;
-        console.log("offerData updated with new brand ----->", offerData);
+        // console.log("offerData updated with new brand ----->", offerData);
       }
 
       //////// réattribuer ctx + appeler le fonctionnement normal du controller create et créer l'offre
