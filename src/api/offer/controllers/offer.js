@@ -96,25 +96,3 @@ module.exports = createCoreController("api::offer.offer", ({ strapi }) => ({
     }
   },
 }));
-// syntaxe strapi destructuré en argument qui retourne la fonction create
-// async create(ctx) { }
-// try catch dans create(ctx)
-// regler le catch error
-
-/////////////// cas 1 l'utilisateur choisit une marque existante, et créée l'offre
-
-///////// si body.brand existe dans la collection brands alors ->
-
-///////// recupérer les informations de la marque (id)
-
-////////////// cas 2 l'utilisateur créée une nouvelle marque, avec customBrand
-
-///////// sinon si customBrand existe ou cas else
-
-///////// verifier si elle n'existe pas déjà dans la collection brands
-
-///// si oui récuperer et stocker les informations de la marque (id)
-
-///// si non créer une nouvelle marque dans la collection brands avec un status "pending" + récuperer et stocker les informations de la marque créee (id)
-
-//// créer l'offre en associant l'id de la marque finale à form data

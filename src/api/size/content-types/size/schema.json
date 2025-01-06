@@ -1,0 +1,44 @@
+{
+  "kind": "collectionType",
+  "collectionName": "sizes",
+  "info": {
+    "singularName": "size",
+    "pluralName": "sizes",
+    "displayName": "Size",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "displayName": {
+      "type": "string",
+      "required": true
+    },
+    "sizeCategory": {
+      "type": "enumeration",
+      "enum": [
+        "femmesVetements",
+        "femmesChaussures",
+        "hommesHauts",
+        "hommesCostumes",
+        "hommesPantalons",
+        "hommesChaussures",
+        "enfantsVetements",
+        "enfantsChaussures"
+      ],
+      "required": true
+    },
+    "offers": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::offer.offer",
+      "mappedBy": "size"
+    }
+  }
+}

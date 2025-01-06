@@ -1010,6 +1010,7 @@ export interface ApiOfferOffer extends Schema.CollectionType {
         number
       > &
       Attribute.DefaultTo<0>;
+    size: Attribute.Relation<'api::offer.offer', 'manyToOne', 'api::size.size'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1024,6 +1025,48 @@ export interface ApiOfferOffer extends Schema.CollectionType {
       'oneToOne',
       'admin::user'
     > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiSizeSize extends Schema.CollectionType {
+  collectionName: 'sizes';
+  info: {
+    singularName: 'size';
+    pluralName: 'sizes';
+    displayName: 'Size';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required;
+    displayName: Attribute.String & Attribute.Required;
+    sizeCategory: Attribute.Enumeration<
+      [
+        'femmesVetements',
+        'femmesChaussures',
+        'hommesHauts',
+        'hommesCostumes',
+        'hommesPantalons',
+        'hommesChaussures',
+        'enfantsVetements',
+        'enfantsChaussures'
+      ]
+    > &
+      Attribute.Required;
+    offers: Attribute.Relation<
+      'api::size.size',
+      'oneToMany',
+      'api::offer.offer'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::size.size', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::size.size', 'oneToOne', 'admin::user'> &
       Attribute.Private;
   };
 }
@@ -1051,6 +1094,7 @@ declare module '@strapi/types' {
       'api::color.color': ApiColorColor;
       'api::material.material': ApiMaterialMaterial;
       'api::offer.offer': ApiOfferOffer;
+      'api::size.size': ApiSizeSize;
     }
   }
 }
