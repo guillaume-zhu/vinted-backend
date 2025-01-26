@@ -32,11 +32,18 @@ module.exports = createCoreController("api::size.size", ({ strapi }) => ({
         sizeCategory = "femmesChaussures";
       }
       //  search size hommesCostumes
-      else if (categoryName.includes("hommes-vetements-costumes") === true) {
+      else if (
+        categoryName.includes("hommes-vetements-costumes-blazers") === true ||
+        categoryName.includes("hommes-vetements-costumes-gilets") === true ||
+        categoryName.includes("hommes-vetements-costumes-ensembles") === true ||
+        categoryName.includes("hommes-vetements-costumes-mariage") === true ||
+        categoryName.includes("hommes-vetements-costumes-autres") === true
+      ) {
         sizeCategory = "hommesCostumes";
       }
       //  search size hommesHauts
       else if (
+        categoryName.includes("hommes-vetements-costumes-pantalons") === true ||
         categoryName.includes("hommes-vetements-hautsTshirts") === true ||
         categoryName.includes("hommes-vetements-manteauxVestes") === true ||
         categoryName.includes("hommes-vetements-sweatsPulls") === true ||

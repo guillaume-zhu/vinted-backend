@@ -1004,7 +1004,7 @@ export interface ApiOfferOffer extends Schema.CollectionType {
       Attribute.Required &
       Attribute.SetMinMax<
         {
-          min: 0;
+          min: 1;
           max: 10000000;
         },
         number
