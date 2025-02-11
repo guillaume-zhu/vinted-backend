@@ -30,7 +30,12 @@
         "hommesPantalons",
         "hommesChaussures",
         "enfantsVetements",
-        "enfantsChaussures"
+        "enfantsChaussures",
+        "maisonTextilesLingesCouettes",
+        "maisonTextilesLingesTaies",
+        "maisonTextilesCouvertures",
+        "maisonTextilesRideaux",
+        "maisonTextilesCoussins"
       ],
       "required": true
     },
@@ -39,6 +44,10 @@
       "relation": "oneToMany",
       "target": "api::offer.offer",
       "mappedBy": "size"
+    },
+    "displayCategoryName": {
+      "type": "string",
+      "unique": false
     }
   }
 }

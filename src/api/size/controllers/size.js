@@ -43,7 +43,6 @@ module.exports = createCoreController("api::size.size", ({ strapi }) => ({
       }
       //  search size hommesHauts
       else if (
-        categoryName.includes("hommes-vetements-costumes-pantalons") === true ||
         categoryName.includes("hommes-vetements-hautsTshirts") === true ||
         categoryName.includes("hommes-vetements-manteauxVestes") === true ||
         categoryName.includes("hommes-vetements-sweatsPulls") === true ||
@@ -58,16 +57,19 @@ module.exports = createCoreController("api::size.size", ({ strapi }) => ({
       }
       //  search size hommesPantalons
       else if (
+        categoryName.includes("hommes-vetements-costumes-pantalons") === true ||
         categoryName.includes("hommes-vetements-jeans") === true ||
         categoryName.includes("hommes-vetements-pantalons") === true ||
         categoryName.includes("hommes-vetements-shorts") === true
       ) {
         sizeCategory = "hommesPantalons";
       }
+
       //  search size hommesChaussures
       else if (categoryName.includes("hommes-chaussures") === true) {
         sizeCategory = "hommesChaussures";
       }
+
       //  search size enfantsChaussures
       else if (
         categoryName.includes("enfants-filles-chaussures") === true ||
@@ -75,6 +77,7 @@ module.exports = createCoreController("api::size.size", ({ strapi }) => ({
       ) {
         sizeCategory = "enfantsChaussures";
       }
+
       //  search size enfantsVetements
       else if (
         categoryName.includes("enfants-filles") === true ||
@@ -82,6 +85,36 @@ module.exports = createCoreController("api::size.size", ({ strapi }) => ({
       ) {
         sizeCategory = "enfantsVetements";
       }
+
+      //  search size maisonTextilesLingesCouettes
+      else if (
+        categoryName.includes("maison-textiles-lingeLit-couette") === true
+      ) {
+        sizeCategory = "maisonTextilesLingesCouettes";
+      }
+
+      //  search size maisonTextilesLingesTaies
+      else if (
+        categoryName.includes("maison-textiles-lingeLit-taieOreiller") === true
+      ) {
+        sizeCategory = "maisonTextilesLingesTaies";
+      }
+
+      //  search size maisonTextilesCouvertures
+      else if (categoryName.includes("maison-textiles-couvertures") === true) {
+        sizeCategory = "maisonTextilesCouvertures";
+      }
+
+      //  search size maisonTextilesRideaux
+      else if (categoryName.includes("maison-textiles-rideaux") === true) {
+        sizeCategory = "maisonTextilesRideaux";
+      }
+
+      //  search size maisonTextilesCoussins
+      else if (categoryName.includes("maison-textiles-coussins") === true) {
+        sizeCategory = "maisonTextilesCoussins";
+      }
+
       //  no size
       else {
         sizeCategory = "no size";

@@ -1052,7 +1052,12 @@ export interface ApiSizeSize extends Schema.CollectionType {
         'hommesPantalons',
         'hommesChaussures',
         'enfantsVetements',
-        'enfantsChaussures'
+        'enfantsChaussures',
+        'maisonTextilesLingesCouettes',
+        'maisonTextilesLingesTaies',
+        'maisonTextilesCouvertures',
+        'maisonTextilesRideaux',
+        'maisonTextilesCoussins'
       ]
     > &
       Attribute.Required;
@@ -1061,6 +1066,7 @@ export interface ApiSizeSize extends Schema.CollectionType {
       'oneToMany',
       'api::offer.offer'
     >;
+    displayCategoryName: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
