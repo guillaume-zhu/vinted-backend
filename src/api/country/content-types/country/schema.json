@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "countries",
+  "info": {
+    "singularName": "country",
+    "pluralName": "countries",
+    "displayName": "Country",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "displayName": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "users": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "plugin::users-permissions.user",
+      "mappedBy": "country"
+    },
+    "isoCode": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    }
+  }
+}

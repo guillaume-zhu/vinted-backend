@@ -78,6 +78,15 @@
       "allowedTypes": [
         "images"
       ]
+    },
+    "country": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::country.country",
+      "inversedBy": "users"
+    },
+    "city": {
+      "type": "string"
     }
   }
 }

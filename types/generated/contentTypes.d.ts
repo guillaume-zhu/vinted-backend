@@ -776,6 +776,12 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'api::offer.offer'
     >;
     avatar: Attribute.Media<'images'> & Attribute.Required;
+    country: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToOne',
+      'api::country.country'
+    >;
+    city: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -910,6 +916,44 @@ export interface ApiColorColor extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::color.color',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiCountryCountry extends Schema.CollectionType {
+  collectionName: 'countries';
+  info: {
+    singularName: 'country';
+    pluralName: 'countries';
+    displayName: 'Country';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required & Attribute.Unique;
+    displayName: Attribute.String & Attribute.Required & Attribute.Unique;
+    users: Attribute.Relation<
+      'api::country.country',
+      'oneToMany',
+      'plugin::users-permissions.user'
+    >;
+    isoCode: Attribute.String & Attribute.Required & Attribute.Unique;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::country.country',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::country.country',
       'oneToOne',
       'admin::user'
     > &
@@ -1098,6 +1142,7 @@ declare module '@strapi/types' {
       'api::brand.brand': ApiBrandBrand;
       'api::category.category': ApiCategoryCategory;
       'api::color.color': ApiColorColor;
+      'api::country.country': ApiCountryCountry;
       'api::material.material': ApiMaterialMaterial;
       'api::offer.offer': ApiOfferOffer;
       'api::size.size': ApiSizeSize;

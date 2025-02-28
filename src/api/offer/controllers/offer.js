@@ -37,6 +37,11 @@ const codeFriendlyConvert = (string) => {
 };
 
 module.exports = createCoreController("api::offer.offer", ({ strapi }) => ({
+  // MODIFICATION DE LA ROUTE CREATE LORS DE LA CRÉATION D'UNE OFFRE AVEC !!!CUSTOM BRAND!!!
+  // ---> 1) Créer custom brand dans la collection brands s'il y a une custom brand de renseignée
+  // ---> 2) Lier cette nouvelle brand au body de l'offre
+  // ---> 3) Appliquer super create fonctionnement normal
+  // ---> 4) Lier le champ offer de la brand créée avec l'id de l'offre créée
   async create(ctx) {
     try {
       //// récupérer les data du form et les stocker dans une variable body
@@ -78,20 +83,41 @@ module.exports = createCoreController("api::offer.offer", ({ strapi }) => ({
       ctx.request.body.data = offerData;
       const response = await super.create(ctx);
 
-      // - offers : id de l'offre actuelle ? (faire un update PUT après la création de l'offre pour la customBrand créée)
+      // - offers : id de l'offre actuelle ? (faire un update PUT après la création de l'offre pour lier le champ offer à customBrand créée)
       const updateOfferslinkNewBrand = await strapi.entityService.update(
         "api::brand.brand",
         offerData.brand,
         { data: { offers: response.data.id } }
       );
 
-      // Vous pouvez ajouter une logique personnalisée ici si nécessaire
       return response;
     } catch (err) {
       // Journaliser l'erreur pour le débogage
       strapi.log.error("Erreur creating offer :", err);
 
       // Re-throw pour conserver la gestion automatique des erreurs
+      throw err;
+    }
+  },
+  // MODIFICATION DE LA ROUTE GET, POUR AJOUTER UNE QUERY RANDOM POUR AFFICHER UNE LISTE DE 80 OFFRES TRIÉES ALÉATOIREMENT
+  // -> ajout de la query / sort = random
+  async find(ctx) {
+    try {
+      // Vérifier si l'utilisateur à demandé un tri aléatoire
+      if (ctx.query.sort === "random") {
+        // Lancement recherche aléatoire
+        const rawOffers = await strapi.db.connection.context.raw(
+          `SELECT * FROM offers ORDER BY RANDOM() LIMIT 80`
+        );
+        // Retourner les 80 offres randomisées
+        return { data: rawOffers.rows };
+      }
+
+      // Sinon exécuter la requête classique de Strapi
+      return await super.find(ctx);
+    } catch (err) {
+      strapi.log.error("Erreur get offers :", err);
+
       throw err;
     }
   },

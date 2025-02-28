@@ -88,7 +88,10 @@ module.exports = createCoreController("api::size.size", ({ strapi }) => ({
 
       //  search size maisonTextilesLingesCouettes
       else if (
-        categoryName.includes("maison-textiles-lingeLit-couette") === true
+        categoryName.includes("maison-textiles-lingeLit-parures") === true ||
+        categoryName.includes("maison-textiles-lingeLit-draps") === true ||
+        categoryName.includes("maison-textiles-lingeLit-houssesCouette") ===
+          true
       ) {
         sizeCategory = "maisonTextilesLingesCouettes";
       }
