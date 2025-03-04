@@ -99,26 +99,4 @@ module.exports = createCoreController("api::offer.offer", ({ strapi }) => ({
       throw err;
     }
   },
-  // MODIFICATION DE LA ROUTE GET, POUR AJOUTER UNE QUERY RANDOM POUR AFFICHER UNE LISTE DE 80 OFFRES TRIÉES ALÉATOIREMENT
-  // -> ajout de la query / sort = random
-  async find(ctx) {
-    try {
-      // Vérifier si l'utilisateur à demandé un tri aléatoire
-      if (ctx.query.sort === "random") {
-        // Lancement recherche aléatoire
-        const rawOffers = await strapi.db.connection.context.raw(
-          `SELECT * FROM offers ORDER BY RANDOM() LIMIT 80`
-        );
-        // Retourner les 80 offres randomisées
-        return { data: rawOffers.rows };
-      }
-
-      // Sinon exécuter la requête classique de Strapi
-      return await super.find(ctx);
-    } catch (err) {
-      strapi.log.error("Erreur get offers :", err);
-
-      throw err;
-    }
-  },
 }));
