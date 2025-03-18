@@ -87,6 +87,9 @@
     },
     "city": {
       "type": "string"
+    },
+    "description": {
+      "type": "text"
     }
   }
 }

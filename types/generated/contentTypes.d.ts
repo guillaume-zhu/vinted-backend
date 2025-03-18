@@ -782,6 +782,7 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'api::country.country'
     >;
     city: Attribute.String;
+    description: Attribute.Text;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<

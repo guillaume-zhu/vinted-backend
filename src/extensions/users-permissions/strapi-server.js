@@ -25,5 +25,46 @@ module.exports = (plugin) => {
       );
     }
   };
+
+  // 🚀 Ajout de la gestion de l'UPDATE de l'avatar
+  plugin.controllers.user.update = async (ctx) => {
+    const userId = ctx.params.id; // Récupère l'ID de l'utilisateur
+
+    // Mise à jour des données utilisateur classiques
+    const updatedUser = await strapi.entityService.update(
+      "plugin::users-permissions.user",
+      userId,
+      {
+        data: ctx.request.body,
+      }
+    );
+
+    // 📌 Gestion du nouvel avatar s'il y en a un
+    if (ctx.request.files?.avatar) {
+      // Supprime l'ancien avatar (optionnel)
+      const existingAvatar = await strapi.entityService.findMany(
+        "plugin::users-permissions.user",
+        { filters: { id: userId }, populate: ["avatar"] }
+      );
+
+      if (existingAvatar[0]?.avatar?.id) {
+        await strapi.plugins.upload.services.upload.remove(
+          existingAvatar[0].avatar
+        );
+      }
+
+      // Upload du nouvel avatar
+      await strapi.plugins.upload.services.upload.upload({
+        data: {
+          refId: userId,
+          ref: "plugin::users-permissions.user",
+          field: "avatar",
+        },
+        files: ctx.request.files.avatar,
+      });
+    }
+
+    return updatedUser;
+  };
   return plugin;
 };
