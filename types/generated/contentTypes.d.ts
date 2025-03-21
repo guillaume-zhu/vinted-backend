@@ -783,6 +783,10 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
     >;
     city: Attribute.String;
     description: Attribute.Text;
+    phone: Attribute.Integer;
+    name: Attribute.String;
+    gender: Attribute.Enumeration<['Femme', 'Homme', 'Autre']>;
+    birthDate: Attribute.Date;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<

@@ -90,6 +90,23 @@
     },
     "description": {
       "type": "text"
+    },
+    "phone": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    },
+    "gender": {
+      "type": "enumeration",
+      "enum": [
+        "Femme",
+        "Homme",
+        "Autre"
+      ]
+    },
+    "birthDate": {
+      "type": "date"
     }
   }
 }
