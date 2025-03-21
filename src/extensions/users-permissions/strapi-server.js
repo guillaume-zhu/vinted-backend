@@ -64,7 +64,16 @@ module.exports = (plugin) => {
       });
     }
 
-    return updatedUser;
+    // Retourner l'utilisateur avec avatar dans la réponse
+    const updatedUserWithAvatar = await strapi.entityService.findOne(
+      "plugin::users-permissions.user",
+      userId,
+      {
+        populate: ["avatar"], // 🚀 Forcer Strapi à inclure l'avatar
+      }
+    );
+
+    return updatedUserWithAvatar; // 🔥 Retourne l'utilisateur avec l'avatar
   };
   return plugin;
 };
