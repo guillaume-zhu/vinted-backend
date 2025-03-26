@@ -1,6 +1,9 @@
+// src/extensions/users-permissions/strapi-server.js // strapi-server.js
+
 module.exports = (plugin) => {
   const register = plugin.controllers.auth.register;
 
+  /////// AJOUT DE LA GESTION DE L'UPLOAD AVATAR
   plugin.controllers.auth.register = async (ctx) => {
     // Création normale du user sans l'image
     await register(ctx);
@@ -26,7 +29,7 @@ module.exports = (plugin) => {
     }
   };
 
-  // 🚀 Ajout de la gestion de l'UPDATE de l'avatar
+  /////// AJOUT DE LA GESTION PUT UPDATE de l'avatar
   plugin.controllers.user.update = async (ctx) => {
     const userId = ctx.params.id; // Récupère l'ID de l'utilisateur
 
@@ -69,11 +72,22 @@ module.exports = (plugin) => {
       "plugin::users-permissions.user",
       userId,
       {
-        populate: ["avatar"], // 🚀 Forcer Strapi à inclure l'avatar
+        populate: ["avatar"], //  Forcer Strapi à inclure l'avatar
       }
     );
 
-    return updatedUserWithAvatar; // 🔥 Retourne l'utilisateur avec l'avatar
+    return updatedUserWithAvatar; //  Retourne l'utilisateur avec l'avatar
   };
+
+  // AJOUT DE LA GESTION DES ROUTES CUSTOM dont CHANGE PASSWORD
+  const customRoutes = require("./routes/custom-user").routes;
+  for (const route of customRoutes) {
+    plugin.routes["content-api"].routes.push(route);
+  }
+
+  // ENREGISTREMENT DU CONTROLLER SPÉCIFIQUE CHANGE PASSWORD
+  plugin.controllers.user.changePassword =
+    require("./controllers/user").changePassword;
+
   return plugin;
 };
