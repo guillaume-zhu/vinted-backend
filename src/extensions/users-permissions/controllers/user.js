@@ -31,7 +31,9 @@ module.exports = {
 
     //// erreur si mdp entré est faux
     if (!isValid) {
-      throw new ApplicationError("Mot de passe actuel incorrect");
+      const error = new ApplicationError("Mot de passe actuel incorrect");
+      error.status = 400;
+      throw error;
     }
 
     // requête pour mettre à jour le mot de passe et hashé automatiquement par Strapi
