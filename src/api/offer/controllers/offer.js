@@ -99,4 +99,66 @@ module.exports = createCoreController("api::offer.offer", ({ strapi }) => ({
       throw err;
     }
   },
+
+  // RECHERCHE DES OFFRES PAR CATÉGORIE ID
+  // async findByCategories(ctx) {
+  //   try {
+  //     // console.log("📩 ctx.request.body", ctx.request.body);
+
+  //     const { categoryIds } = ctx.request.body;
+
+  //     const page = Number(ctx.query.page) || 1;
+  //     const pageSize = 96;
+
+  //     const offers = await strapi.entityService.findMany("api::offer.offer", {
+  //       filters: {
+  //         category: {
+  //           id: {
+  //             $in: categoryIds,
+  //           },
+  //         },
+  //       },
+  //       populate: {
+  //         images: true,
+  //         category: true,
+  //         colors: true,
+  //         materials: true,
+  //         owner: true,
+  //         brand: true,
+  //         size: true,
+  //       },
+  //       pagination: {
+  //         page,
+  //         pageSize,
+  //       },
+  //     });
+
+  //     const total = await strapi.entityService.count("api::offer.offer", {
+  //       filters: {
+  //         category: {
+  //           id: {
+  //             $in: categoryIds,
+  //           },
+  //         },
+  //       },
+  //     });
+
+  //     const pageCount = Math.ceil(total / pageSize);
+
+  //     return {
+  //       data: offers,
+  //       meta: {
+  //         pagination: {
+  //           page,
+  //           pageSize,
+  //           pageCount,
+  //           total,
+  //         },
+  //       },
+  //     };
+  //   } catch (error) {
+  //     console.error("💥 Erreur dans findByCategories:", error);
+  //     ctx.throw(500, "Erreur interne lors de la recherche des offres.");
+  //   }
+  // },
 }));

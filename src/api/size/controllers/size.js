@@ -23,6 +23,8 @@ module.exports = createCoreController("api::size.size", ({ strapi }) => ({
       let sizeCategory = "";
 
       //// logique si include "nom-categorie-recherchée" affecter sizeCategory
+
+      /// FEMMES
       //  search size femmesVetements
       if (categoryName.includes("femmes-vetements") === true) {
         sizeCategory = "femmesVetements";
@@ -31,6 +33,12 @@ module.exports = createCoreController("api::size.size", ({ strapi }) => ({
       else if (categoryName.includes("femmes-chaussures") === true) {
         sizeCategory = "femmesChaussures";
       }
+      // search size all femmes
+      else if (categoryName === "femmes") {
+        sizeCategory = "femmes";
+      }
+
+      /// HOMMES
       //  search size hommesCostumes
       else if (
         categoryName.includes("hommes-vetements-costumes-blazers") === true ||
@@ -64,12 +72,20 @@ module.exports = createCoreController("api::size.size", ({ strapi }) => ({
       ) {
         sizeCategory = "hommesPantalons";
       }
-
+      //  search size all hommes vetements
+      else if (categoryName === "hommes-vetements") {
+        sizeCategory = "hommes-vetements";
+      }
       //  search size hommesChaussures
       else if (categoryName.includes("hommes-chaussures") === true) {
         sizeCategory = "hommesChaussures";
       }
+      // search size all hommes
+      else if (categoryName === "hommes") {
+        sizeCategory = "hommes";
+      }
 
+      /// ENFANTS
       //  search size enfantsChaussures
       else if (
         categoryName.includes("enfants-filles-chaussures") === true ||
@@ -77,7 +93,6 @@ module.exports = createCoreController("api::size.size", ({ strapi }) => ({
       ) {
         sizeCategory = "enfantsChaussures";
       }
-
       //  search size enfantsVetements
       else if (
         categoryName.includes("enfants-filles") === true ||
@@ -85,7 +100,12 @@ module.exports = createCoreController("api::size.size", ({ strapi }) => ({
       ) {
         sizeCategory = "enfantsVetements";
       }
+      // search size enfants all
+      else if (categoryName === "enfants") {
+        sizeCategory = "enfants";
+      }
 
+      // MAISON
       //  search size maisonTextilesLingesCouettes
       else if (
         categoryName.includes("maison-textiles-lingeLit-parures") === true ||
@@ -123,9 +143,42 @@ module.exports = createCoreController("api::size.size", ({ strapi }) => ({
         sizeCategory = "no size";
       }
 
-      //// si la sizeCategory recherchée à une size
+      //// REQUETES si la sizeCategory recherchée à une size
+      // si femmes/hommes général
+      if (
+        sizeCategory === "femmes" ||
+        sizeCategory === "hommes" ||
+        sizeCategory === "enfants"
+      ) {
+        const sizes = await strapi.entityService.findMany("api::size.size", {
+          filters: {
+            name: {
+              $containsi: sizeCategory,
+            },
+          },
+          pagination: {
+            pageSize: 300,
+          },
+        });
+        return sizes;
+      }
 
-      if (sizeCategory) {
+      // si hommes-vetements
+      else if (sizeCategory === "hommes-vetements") {
+        const sizes = await strapi.entityService.findMany("api::size.size", {
+          filters: {
+            sizeCategory: {
+              $in: ["hommesPantalons", "hommesHauts", "hommesCostumes"],
+            },
+          },
+          pagination: {
+            pageSize: 100,
+          },
+        });
+        return sizes;
+      }
+      // si ciblé
+      else if (sizeCategory) {
         // chercher avec entityService find many avec filtre sizeCategory
         console.log("sizeCategory to filter ------>", sizeCategory);
         const sizes = await strapi.entityService.findMany("api::size.size", {
