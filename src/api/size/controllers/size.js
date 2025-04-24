@@ -192,7 +192,7 @@ module.exports = createCoreController("api::size.size", ({ strapi }) => ({
       }
     } catch (err) {
       // Journaliser l'erreur pour le débogage
-      strapi.log.error("Erreur creating offer :", err);
+      strapi.log.error("Erreur searching sizes by category :", err);
 
       // Re-throw pour conserver la gestion automatique des erreurs
       throw err;
