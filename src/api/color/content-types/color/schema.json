@@ -20,6 +20,12 @@
     "displayName": {
       "type": "string",
       "required": true
+    },
+    "hex": {
+      "type": "string"
+    },
+    "style": {
+      "type": "string"
     }
   }
 }

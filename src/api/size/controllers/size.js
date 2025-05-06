@@ -9,10 +9,10 @@ const { createCoreController } = require("@strapi/strapi").factories;
 module.exports = createCoreController("api::size.size", ({ strapi }) => ({
   async getSizesByCategory(ctx) {
     //   console.log("getSizesByCategory hitpoint ------");
-    console.log("ctx params categoryName ------->", ctx.params.categoryName);
+    // console.log("ctx params categoryName ------->", ctx.params.categoryName);
 
     const categoryName = ctx.params.categoryName;
-    console.log("categoryName ------>", categoryName);
+    // console.log("categoryName ------>", categoryName);
 
     if (!categoryName) {
       return ctx.badRequest("Category name is required");
@@ -180,7 +180,7 @@ module.exports = createCoreController("api::size.size", ({ strapi }) => ({
       // si ciblé
       else if (sizeCategory) {
         // chercher avec entityService find many avec filtre sizeCategory
-        console.log("sizeCategory to filter ------>", sizeCategory);
+        // console.log("sizeCategory to filter ------>", sizeCategory);
         const sizes = await strapi.entityService.findMany("api::size.size", {
           filters: { sizeCategory: sizeCategory },
         });

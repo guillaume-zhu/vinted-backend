@@ -910,6 +910,8 @@ export interface ApiColorColor extends Schema.CollectionType {
   attributes: {
     name: Attribute.String & Attribute.Required & Attribute.Unique;
     displayName: Attribute.String & Attribute.Required;
+    hex: Attribute.String;
+    style: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
