@@ -143,53 +143,29 @@ module.exports = createCoreController("api::size.size", ({ strapi }) => ({
         sizeCategory = "no size";
       }
 
-      //// REQUETES si la sizeCategory recherchée à une size
-      // si femmes/hommes général
-      if (
-        sizeCategory === "femmes" ||
-        sizeCategory === "hommes" ||
-        sizeCategory === "enfants"
-      ) {
-        const sizes = await strapi.entityService.findMany("api::size.size", {
-          filters: {
+      // REQUETES POUR RÉCUPÉRER LES SIZES EN FONCTION DES OFFRES DISPOS
+      // Récupérer les offres
+      const offers = await strapi.entityService.findMany("api::offer.offer", {
+        filters: {
+          category: {
             name: {
-              $containsi: sizeCategory,
+              $containsi: categoryName,
             },
           },
-          pagination: {
-            pageSize: 300,
-          },
-        });
-        return sizes;
-      }
+        },
+        populate: ["size"],
+        pagination: { pageSize: 200 },
+      });
 
-      // si hommes-vetements
-      else if (sizeCategory === "hommes-vetements") {
-        const sizes = await strapi.entityService.findMany("api::size.size", {
-          filters: {
-            sizeCategory: {
-              $in: ["hommesPantalons", "hommesHauts", "hommesCostumes"],
-            },
-          },
-          pagination: {
-            pageSize: 100,
-          },
-        });
-        return sizes;
-      }
-      // si ciblé
-      else if (sizeCategory) {
-        // chercher avec entityService find many avec filtre sizeCategory
-        // console.log("sizeCategory to filter ------>", sizeCategory);
-        const sizes = await strapi.entityService.findMany("api::size.size", {
-          filters: { sizeCategory: sizeCategory },
-        });
+      // Trier les sizes des offres
+      const sizes = offers.map((offer) => offer.size).flat();
+      const validSizes = sizes.filter((size) => size !== null);
+      const uniqueSizes = validSizes.filter(
+        (size, index, self) => index === self.findIndex((s) => s.id === size.id)
+      );
+      const sortedSizes = uniqueSizes.sort((a, b) => a.id - b.id);
 
-        // vérifier le resultat
-        console.log(sizes);
-        // return le resultat
-        return sizes;
-      }
+      return sortedSizes;
     } catch (err) {
       // Journaliser l'erreur pour le débogage
       strapi.log.error("Erreur searching sizes by category :", err);
