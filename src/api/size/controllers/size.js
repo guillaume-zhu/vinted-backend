@@ -8,9 +8,10 @@ const { createCoreController } = require("@strapi/strapi").factories;
 
 module.exports = createCoreController("api::size.size", ({ strapi }) => ({
   async getSizesByCategory(ctx) {
-    //   console.log("getSizesByCategory hitpoint ------");
+    // console.log("getSizesByCategory hitpoint ------");
     // console.log("ctx params categoryName ------->", ctx.params.categoryName);
 
+    const onlySizes = ctx.query.onlySizes === "true";
     const categoryName = ctx.params.categoryName;
     // console.log("categoryName ------>", categoryName);
 
@@ -143,29 +144,45 @@ module.exports = createCoreController("api::size.size", ({ strapi }) => ({
         sizeCategory = "no size";
       }
 
-      // REQUETES POUR RÉCUPÉRER LES SIZES EN FONCTION DES OFFRES DISPOS
+      // REQUETE POUR RÉCUPÉRER LES SIZES EN FONCTION DES OFFRES DISPOS DE LA CATÉGORIE
       // Récupérer les offres
-      const offers = await strapi.entityService.findMany("api::offer.offer", {
-        filters: {
-          category: {
-            name: {
-              $containsi: categoryName,
+      if (!onlySizes) {
+        const offers = await strapi.entityService.findMany("api::offer.offer", {
+          filters: {
+            category: {
+              name: {
+                $containsi: categoryName,
+              },
             },
           },
-        },
-        populate: ["size"],
-        pagination: { pageSize: 200 },
-      });
+          populate: ["size"],
+          pagination: { pageSize: 200 },
+        });
 
-      // Trier les sizes des offres
-      const sizes = offers.map((offer) => offer.size).flat();
-      const validSizes = sizes.filter((size) => size !== null);
-      const uniqueSizes = validSizes.filter(
-        (size, index, self) => index === self.findIndex((s) => s.id === size.id)
-      );
-      const sortedSizes = uniqueSizes.sort((a, b) => a.id - b.id);
+        // Trier les sizes des offres
+        const sizes = offers.map((offer) => offer.size).flat();
+        const validSizes = sizes.filter((size) => size !== null);
+        const uniqueSizes = validSizes.filter(
+          (size, index, self) =>
+            index === self.findIndex((s) => s.id === size.id)
+        );
+        const sortedSizes = uniqueSizes.sort((a, b) => a.id - b.id);
 
-      return sortedSizes;
+        return sortedSizes;
+      }
+
+      // REQUETE POUR RÉCUPÉRER TOUTES LES SIZES DE LA CATÉGORIE
+      if (onlySizes) {
+        const sizes = await strapi.entityService.findMany("api::size.size", {
+          filters: {
+            sizeCategory: sizeCategory,
+          },
+          sort: ["id:asc"],
+          pagination: { pageSize: 200 },
+        });
+
+        return sizes;
+      }
     } catch (err) {
       // Journaliser l'erreur pour le débogage
       strapi.log.error("Erreur searching sizes by category :", err);
