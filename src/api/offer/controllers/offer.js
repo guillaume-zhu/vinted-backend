@@ -83,13 +83,6 @@ module.exports = createCoreController("api::offer.offer", ({ strapi }) => ({
       ctx.request.body.data = offerData;
       const response = await super.create(ctx);
 
-      // - offers : id de l'offre actuelle ? (faire un update PUT après la création de l'offre pour lier le champ offer à customBrand créée)
-      const updateOfferslinkNewBrand = await strapi.entityService.update(
-        "api::brand.brand",
-        offerData.brand,
-        { data: { offers: response.data.id } }
-      );
-
       return response;
     } catch (err) {
       // Journaliser l'erreur pour le débogage
