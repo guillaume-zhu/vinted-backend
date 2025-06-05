@@ -5,6 +5,7 @@
  */
 
 const { createCoreController } = require("@strapi/strapi").factories;
+const stripe = require("stripe")(process.env.STRIPE_API_SECRET);
 
 const codeFriendlyConvert = (string) => {
   //// transformer string sans accents + lowerCase
@@ -90,6 +91,22 @@ module.exports = createCoreController("api::offer.offer", ({ strapi }) => ({
 
       // Re-throw pour conserver la gestion automatique des erreurs
       throw err;
+    }
+  },
+
+  // CONTROLLER BUY
+  async buy(ctx) {
+    try {
+      const { status } = await stripe.charges.create({
+        amount: ctx.request.body.amount * 100,
+        currency: "eur",
+        description: `Paiement Vinted pour : ${ctx.request.body.title}`,
+        source: ctx.request.body.token,
+      });
+
+      return { status: status };
+    } catch (err) {
+      strapi.log.error("Erreur buy offer :", err);
     }
   },
 

@@ -1,15 +1,15 @@
 "use strict";
 
 module.exports = {
-  //   routes: [
-  //     {
-  //       method: "POST",
-  //       path: "/offers/by-categories",
-  //       handler: "offer.findByCategories",
-  //       config: {
-  //         policies: [],
-  //         middlewares: [],
-  //       },
-  //     },
-  //   ],
+  routes: [
+    {
+      method: "POST",
+      path: "/offers/buy",
+      handler: "offer.buy",
+      config: {
+        policies: [],
+        middlewares: [],
+      },
+    },
+  ],
 };
